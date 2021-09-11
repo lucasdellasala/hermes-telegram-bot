@@ -1,6 +1,10 @@
 import express from 'express'
 import morgan from 'morgan'
+import rrssBot from './middlewares/rrssBot'
 import './dbconnection'
+import './bot'
+
+import news from './middlewares/news'
 
 // Init
 const app = express()
@@ -14,7 +18,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes
-app.get('/', (req,res)=> res.send('Hello World'))
+app.post('/', (req,res)=> news(req,res, rrssBot))
 
 // Start server
 app.listen(app.get('port'), ()=>{
