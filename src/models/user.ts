@@ -1,11 +1,15 @@
-/* import mongoose from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
-const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
+export interface User extends mongoose.Document {
+  chatId: string
+  isActive: boolean
+  name: string
+}
 
-const BlogPost = new Schema({
-  author: ObjectId,
-  title: String,
-  body: String,
-  date: Date
-}); */
+const UserSchema = new Schema({
+  chatId: String,
+  isActive: Boolean,
+  name: String
+});
+
+export default model<User>("User", UserSchema);
