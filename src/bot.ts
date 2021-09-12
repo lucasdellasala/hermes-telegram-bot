@@ -1,10 +1,10 @@
 import { 
-//    Context,
     Telegraf 
 } from 'telegraf'
 import colors from 'colors'
 import { TELEGRAM_TOKEN } from './keys'
 import { usersController } from './controllers/usersController'
+import { startMessage, helpMessage } from './messages/help'
 
 const bot = new Telegraf(TELEGRAM_TOKEN)
 
@@ -14,13 +14,12 @@ bot.use((ctx:any, next) => {
 })
 
 bot.start((ctx)=>{
-    const name = ctx.update.message.from.first_name
-    console.log(`${name} started the bot`)
-    ctx.reply(`Hi ${name}! Welcome to Hermes, your news app`)
+    const name = ctx.update.message.from.first_name? ctx.update.message.from.first_name : ctx.update.message.from.username
+    ctx.replyWithHTML(startMessage(name))
 })
 
 bot.help((ctx)=>{
-    ctx.reply('Help!')
+    ctx.replyWithHTML(helpMessage)
 })
 
 bot.settings((ctx)=>{

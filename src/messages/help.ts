@@ -1,0 +1,2 @@
+export const startMessage = (name: string | undefined) => `Hi <strong>${name}!</strong> Welcome to <strong>Hermes</strong>, your news app.\nYou can get more information on how to use this bot with /help.`
+export const helpMessage = '<strong>Command - Description</strong>\n/suscribe Start receiving all our news!\n/unsuscribe Cancel your suscription.'
