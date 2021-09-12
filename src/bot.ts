@@ -4,6 +4,7 @@ import {
 } from 'telegraf'
 import colors from 'colors'
 import { TELEGRAM_TOKEN } from './keys'
+import { usersController } from './controllers/usersController'
 
 const bot = new Telegraf(TELEGRAM_TOKEN)
 
@@ -27,13 +28,27 @@ bot.settings((ctx)=>{
 })
 
 bot.command('test', (ctx) => {
-    console.log(ctx)
+    console.log(ctx.update.message.from)
     ctx.reply('Testing!')
 })
 
-// TODO :
-// - Agregar comando para suscribirse - tiene que desactivar en mongoDb el field isActive
-// - Agregar comando para desuscribirse - tiene que activar en mongoDb el field isActive
+bot.command(['suscribe','Suscribe', 'SUSCRIBE', 'subscribe', 'Subscribe', 'SUBSCRIBE'], async (ctx)=>{
+    const { id, first_name, username } = ctx.update.message.from
+    const name = first_name ? first_name : username
+    const response = await usersController.suscribe(id.toString(), name)
+    console.log('SUSCRIBE', name, id, response)
+
+    ctx.reply(response.message)
+})
+
+bot.command(['unsuscribe','Unsuscribe', 'UNSUSCRIBE', 'unsubscribe', 'Unsubscribe', 'UNSUBSCRIBE'], async (ctx)=>{
+    const { id, first_name, username } = ctx.update.message.from
+    const name = first_name ? first_name : username
+    const response = await usersController.unsuscribe(id.toString())
+    console.log('SUSCRIBE', name, id, response)
+
+    ctx.reply(response.message)
+})
 
 bot.launch()
 

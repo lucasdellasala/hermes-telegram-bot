@@ -1,10 +1,12 @@
-const news = (req:any,res:any, rrssBot: any) => {
+import { usersController } from './../controllers/usersController'
+
+const news = async (req:any,res:any, rrssBot: any) => {
     // Esto tiene que ser la lista de usuarios suscriptos consultada al cliente de mongodb
-    const users = [1135051130, 1135051130]
+    const users = await usersController.getUsers()
 
-    users.forEach(user => rrssBot(user, req.body))
-
-    res.send('news')
+    users.forEach(user => rrssBot(user.chatId, req.body))
+    
+    res.send(users)
 }
 
 export default news
